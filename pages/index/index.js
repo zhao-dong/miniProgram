@@ -7,6 +7,8 @@ Page({
     motto: 'Hello World',
     userInfo: {},
     hasUserInfo: false,
+    msg: 'initial value',
+    //count: 0,
     canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
   //事件处理函数
@@ -15,7 +17,22 @@ Page({
       url: '../logs/logs'
     })
   },
-  onLoad: function () {
+  clickMe: function() {
+    //this.count += 1;
+    this.setData({msg: "Hello worlddd"})
+    wx.navigateBack({
+    })
+  },
+  clickMe2: function () {
+    this.setData({ msg: "ClickMe2" }, function () {
+      console.log("finish rendering ClickMe2")
+    })
+    this.setData({ unknown: "UnknownData"})
+  },
+  tapName: function (event) {
+    console.log(event)
+  }, 
+  onLoad: function (option) {
     if (app.globalData.userInfo) {
       this.setData({
         userInfo: app.globalData.userInfo,
@@ -42,6 +59,7 @@ Page({
         }
       })
     }
+    console.log("option id is " + option.id)
   },
   getUserInfo: function(e) {
     console.log(e)
