@@ -9,7 +9,8 @@
     "navigationBarTitleText": "MiniProgram",
     "navigationBarTextStyle": "black",
     "enablePullDownRefresh": true,
-    "backgroundTextStyle": "dark"
+    "backgroundTextStyle": "dark",
+    "onReachBottomDistance": 100
   },
   "style": "v2",
   "sitemapLocation": "sitemap.json",

@@ -38,3 +38,14 @@
 
 <template is="msgItem" data="{{...item}}"/>
 <view> {{msg}}</view>
+
+
+<button hover-class="hover" bindtap="clickLoading"> 点击button </button>
+<view hover-class="hover"> 点击view</view>
+
+<button loading="{{loading}}" bindtap="tap">操作</button>
+
+<button bindtap="logIn">Login</button>
+
+<button bindtap="tapScan">扫码订餐</button>
+<button bindtap="tapNetwork">预览文档</button>

@@ -8,6 +8,7 @@ Page({
     time: (new Date()).toString(),
     name: "world",
     msg: 'msg_msg_msg',
+    loading: false,
     array: [
       { message: 'foo', unique: 'unique_1'},
       { message: 'bar', unique: 'unique_2'}
@@ -72,6 +73,18 @@ Page({
     var appInstance = getApp()
     console.log(appInstance.globalData.developerName)
     console.log("OnLoad")
+
+    wx.showToast({ // 显示Toast
+
+      title: '已发送',
+
+      icon: 'success',
+
+      duration: 1500
+
+    })
+
+    // wx.hideToast() // 隐藏Toast
   },
 
   /**
@@ -129,5 +142,138 @@ Page({
   },
   onPageScroll: function () {
     console.log("OnPageScroll")
+  },
+  tap: function () {
+
+    // 把按钮的loading状态显示出来
+    this.setData({
+
+      loading: true
+
+    })
+    // 接着做耗时的操作
+
+    wx.request({
+
+      //url: 'https://jljzcar.com.cn/cwapi/test',
+      url: 'https://g189q23173.51mypc.cn/cwapi/test',
+
+      success: function (res) {
+
+        console.log("---send GET request to server")
+        console.log(res)// 服务器回包信息
+      },
+      error: function(res) {
+        console.log("---server error ")
+        console.log(res)
+      }
+
+    })
+  },
+  clickLoading:  function() {
+
+    wx.showModal({
+
+      title: '标题',
+
+      content: '告知当前状态，信息和解决方法',
+
+      confirmText: '主操作',
+
+      cancelText: '次要操作',
+
+      success: function (res) {
+
+        if (res.confirm) {
+
+          console.log('用户点击主操作')
+
+        } else if (res.cancel) {
+
+          console.log('用户点击次要操作')
+
+        }
+
+      }
+
+    })
+
+    this.setData(
+      {
+        loading: false
+      }
+    )
+  },
+  logIn: function() {
+    wx.login({
+      success: function (res) {
+        console.log("---login----")
+        console.log(res)
+      }
+    })
+  },
+  // 点击“扫码订餐”的按钮，触发tapScan回调
+
+  tapScan: function () {
+
+    // 调用wx.login获取微信登录凭证
+
+    wx.scanCode({
+
+      success: function (res) {
+
+        var num = res.result // 获取到的num就是餐桌的编号
+
+      }
+
+    })
+
+  },
+
+  // 点击“预览文档”的按钮，触发tap回调
+
+  tapNetwork: function () {
+
+    wx.getNetworkType({
+
+      success: function (res) {
+
+        // networkType字段的有效值：
+
+        // wifi/2g/3g/4g/unknown(Android下不常见的网络类型)/none(无网络)
+
+        if (res.networkType == 'wifi') {
+
+          // 从网络上下载pdf文档
+
+          wx.downloadFile({
+
+            url: 'http://test.com/somefile.pdf',
+
+            success: function (res) {
+
+              // 下载成功之后进行预览文档
+
+              wx.openDocument({
+
+                filePath: res.tempFilePath
+
+              })
+
+            }
+
+          })
+
+        } else {
+
+          wx.showToast({ title: '当前为非Wifi环境' })
+
+        }
+
+      }
+
+    })
+
   }
+
 })
